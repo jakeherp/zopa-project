@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import ReactDOM from "react-dom"
 import styled from "styled-components"
 import {
-	Button,
 	colors,
 	FlexCol,
 	FlexContainer,
@@ -11,21 +10,22 @@ import {
 	GlobalStyles,
 	Header2,
 	Header3,
-	SidekickCard,
-	TextField,
 } from "@zopauk/react-components"
+
+import Alert from "./components/Alert"
+import Form from "./components/Form"
+import Account from "./components/Account"
+import Transaction from "./components/Transaction"
 
 const H2 = styled(Header2)`
 	color: ${colors.neutral.neutral900};
 `
 
-const Strong = styled.strong`
-	font-weight: 600;
-`
-
 const Transactions = styled.dl`
 	display: flex;
 	flex-wrap: wrap;
+	max-height: 300px;
+	overflow: scroll;
 
 	dd,
 	dt {
@@ -46,43 +46,70 @@ const Transactions = styled.dl`
 	}
 `
 
-const Form = styled.form`
-	min-height: 500px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-evenly;
-`
-
 const App = () => {
-	const [nameInput, setNameInput] = useState("")
-	const [emailInput, setEmailInput] = useState("")
-	const [amountInput, setAmountInput] = useState("£")
+	const [nameInput, setNameInput] = useState({ value: "", error: false })
+	const [emailInput, setEmailInput] = useState({ value: "", error: false })
+	const [amountInput, setAmountInput] = useState({
+		value: null,
+		error: false,
+	})
+	const [moneySent, setMoneySent] = useState(false)
 
 	const [balance, setBalance] = useState(13500)
 	const [transactions, setTransactions] = useState([
 		{
-			id: 1,
-			name: `Natalia`,
-			email: `natalia@zopa.com`,
+			id: 0,
+			name: `Martin`,
+			email: `martin@zopa.com`,
 			amount: 1500.0,
 		},
 		{
-			id: 2,
+			id: 1,
 			name: `Thomas`,
 			email: `thomas@zopa.com`,
 			amount: 1000.0,
 		},
 		{
-			id: 3,
-			name: `Martin`,
-			email: `martin@zopa.com`,
+			id: 2,
+			name: `Natalia`,
+			email: `natalia@zopa.com`,
 			amount: 2000.0,
 		},
 	])
 
-	const handleNameChange = evt => setNameInput(evt.target.value)
-	const handleEmailChange = evt => setEmailInput(evt.target.value)
-	const handleAmountChange = evt => setAmountInput(evt.target.value)
+	const handleNameChange = evt =>
+		setNameInput({ ...nameInput, value: evt.target.value })
+	const handleEmailChange = evt =>
+		setEmailInput({ ...nameInput, value: evt.target.value })
+	const handleAmountChange = evt =>
+		setAmountInput({ ...nameInput, value: evt.target.value })
+
+	const handleSubmit = e => {
+		e.preventDefault()
+
+		const transactionsObject = {
+			id: transactions.length,
+			name: nameInput.value,
+			email: emailInput.value,
+			amount: parseFloat(amountInput.value),
+		}
+
+		const leftAvailable = balance - parseFloat(amountInput.value)
+
+		setTransactions(transactions.concat(transactionsObject))
+		setBalance(leftAvailable)
+		setMoneySent(true)
+		setTimeout(() => setMoneySent(false), 5000)
+		resetForm()
+		console.log(transactions, balance)
+	}
+
+	const resetForm = () => {
+		setNameInput("")
+		setEmailInput("")
+		setAmountInput("")
+	}
+
 	const toLocalCurrency = (num, country = "en-GB", currency = "GBP") => {
 		return new Intl.NumberFormat(country, {
 			style: "currency",
@@ -97,73 +124,45 @@ const App = () => {
 			<GlobalStyles />
 			<Fonts />
 			<FlexContainer gutter={0}>
-				<FlexRow>
-					<FlexCol xs={12}>
-						<SidekickCard type="verified">
-							<h2>The money has been sent</h2>
-						</SidekickCard>
-					</FlexCol>
-				</FlexRow>
+				{moneySent && (
+					<Alert type="verified">The money has been sent</Alert>
+				)}
 				<FlexRow justify="space-around">
 					<FlexCol xs={12} m={5} l={4}>
 						<H2>Send money</H2>
-						<Form>
-							<TextField
-								errorMessage="Please enter a valid name"
-								inputProps={{ name: "name" }}
-								label="Name"
-								value={nameInput}
-								onChange={evt => handleNameChange(evt)}
-							/>
-							<TextField
-								inputProps={{ name: "email" }}
-								label="Email address"
-								value={emailInput}
-								onChange={evt => handleEmailChange(evt)}
-							/>
-							<TextField
-								inputProps={{ name: "amount" }}
-								label="Amount"
-								value={amountInput}
-								onChange={evt => handleAmountChange(evt)}
-							/>
-							<Button styling="primary" fullWidth={true}>
-								Send
-							</Button>
-						</Form>
+						<Form
+							handleNameChange={e => handleNameChange(e)}
+							handleEmailChange={e => handleEmailChange(e)}
+							handleAmountChange={e => handleAmountChange(e)}
+							handleSubmit={e => handleSubmit(e)}
+							nameInput={nameInput.value}
+							emailInput={emailInput.value}
+							amountInput={amountInput.value}
+						/>
 					</FlexCol>
 					<FlexCol xs={12} m={5} l={4}>
 						<H2>My account</H2>
 						<FlexContainer gutter={0}>
-							<FlexRow>
-								<FlexCol xs={5}>
-									<Strong>
-										{toLocalCurrency(totalSpent)}
-									</Strong>
-									<br />
-									total sent
-								</FlexCol>
-								<FlexCol xs={2}>XXX</FlexCol>
-								<FlexCol xs={5}>
-									<Strong>{toLocalCurrency(balance)}</Strong>
-									<br />
-									left available
-								</FlexCol>
-							</FlexRow>
+							<Account
+								spent={toLocalCurrency(totalSpent)}
+								balance={toLocalCurrency(balance)}
+							/>
 						</FlexContainer>
 						<Header3>Transactions</Header3>
 						<Transactions>
-							{transactions.map(transaction => (
-								<React.Fragment key={transaction.id}>
-									<dt>
-										{transaction.name}
-										<small>{transaction.email}</small>
-									</dt>
-									<dd>
-										{toLocalCurrency(transaction.amount)}
-									</dd>
-								</React.Fragment>
-							))}
+							{transactions
+								.slice(0)
+								.reverse()
+								.map(transaction => (
+									<Transaction
+										key={transaction.id}
+										name={transaction.name}
+										email={transaction.email}
+										amount={toLocalCurrency(
+											transaction.amount,
+										)}
+									/>
+								))}
 						</Transactions>
 					</FlexCol>
 				</FlexRow>
