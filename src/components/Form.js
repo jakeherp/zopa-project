@@ -8,10 +8,10 @@ import {
 } from "@zopauk/react-components"
 
 const Form = styled.form`
-	min-height: 500px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
+	min-height: 500px;
 `
 
 const Amount = styled.div`
@@ -23,11 +23,11 @@ const Amount = styled.div`
 `
 
 const Currency = styled.span`
-	position: absolute;
+	font-size: 1.5rem;
 	left: 1rem;
+	position: absolute;
 	top: 50%;
 	transform: translateY(-50%);
-	font-size: 1.5rem;
 `
 
 const FormComponent = ({

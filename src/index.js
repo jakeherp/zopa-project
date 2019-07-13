@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import ReactDOM from "react-dom"
-import styled from "styled-components"
+import styled, { createGlobalStyle } from "styled-components"
 import {
 	colors,
 	FlexCol,
@@ -12,10 +12,18 @@ import {
 	Header3,
 } from "@zopauk/react-components"
 
+import Account from "./components/Account"
 import Alert from "./components/Alert"
 import Form from "./components/Form"
-import Account from "./components/Account"
 import Transaction from "./components/Transaction"
+
+const MobileStyles = createGlobalStyle`
+	body {
+		@media screen and (max-width: 767px) {
+			margin: 0 3%;
+		}
+	}
+`
 
 const H2 = styled(Header2)`
 	color: ${colors.neutral.neutral900};
@@ -29,9 +37,9 @@ const Transactions = styled.dl`
 
 	dd,
 	dt {
-		width: 50%;
 		margin: 0;
 		padding: 1rem 0;
+		width: 50%;
 		&:not(:last-of-type) {
 			border-bottom: 1px solid #d8d8d8;
 		}
@@ -41,10 +49,10 @@ const Transactions = styled.dl`
 	}
 
 	dd {
-		text-align: right;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		text-align: right;
 	}
 
 	small {
@@ -53,10 +61,12 @@ const Transactions = styled.dl`
 `
 
 const Container = styled(FlexContainer)`
-	background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxIDEiPjx0aXRsZT5waXhlbDwvdGl0bGU+PHJlY3Qgd2lkdGg9IjEiIGhlaWdodD0iMSIgc3R5bGU9ImZpbGw6I2U5ZWFmNCIvPjwvc3ZnPg==)
-		repeat-y center;
-	background-size: 1px;
-	margin-top: 3rem;
+	@media screen and (min-width: 768px) {
+		background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxIDEiPjx0aXRsZT5waXhlbDwvdGl0bGU+PHJlY3Qgd2lkdGg9IjEiIGhlaWdodD0iMSIgc3R5bGU9ImZpbGw6I2U5ZWFmNCIvPjwvc3ZnPg==)
+			repeat-y center;
+		background-size: 1px;
+		margin-top: 3rem;
+	}
 `
 
 const App = () => {
@@ -91,12 +101,12 @@ const App = () => {
 		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 	}
 
-	const handleNameChange = evt =>
-		setNameInput({ ...nameInput, value: evt.target.value })
-	const handleEmailChange = evt =>
-		setEmailInput({ ...nameInput, value: evt.target.value })
-	const handleAmountChange = evt =>
-		setAmountInput({ ...nameInput, value: evt.target.value })
+	const handleNameChange = e =>
+		setNameInput({ ...nameInput, value: e.target.value })
+	const handleEmailChange = e =>
+		setEmailInput({ ...nameInput, value: e.target.value })
+	const handleAmountChange = e =>
+		setAmountInput({ ...nameInput, value: e.target.value })
 
 	const handleSubmit = e => {
 		e.preventDefault()
@@ -141,6 +151,7 @@ const App = () => {
 
 	return (
 		<React.Fragment>
+			<MobileStyles />
 			<GlobalStyles />
 			<Fonts />
 			<Container gutter={0}>

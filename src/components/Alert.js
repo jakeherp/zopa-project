@@ -1,5 +1,5 @@
 import React from "react"
-import { SidekickCard, FlexCol, FlexRow } from "@zopauk/react-components"
+import { FlexCol, FlexRow, SidekickCard } from "@zopauk/react-components"
 
 const AlertComponent = ({ children, type }) => (
 	<FlexRow>
