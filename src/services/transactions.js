@@ -1,5 +1,5 @@
 import axios from "axios"
-const baseUrl = "http://localhost:8080/transactions"
+const baseUrl = "http://localhost:9672/transactions"
 
 const getTransactions = () => {
 	return axios.get(baseUrl)
