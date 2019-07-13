@@ -17,8 +17,10 @@ I have done my best to complete the code challenge in as much detail as possible
 
 ## What I haven't done
 
-**Redux**: I did not see the need to use Redux here and therefore relied on React's native state management due to time constraints
-**Unit Tests**: I have to admit, that this is my weakest skill, since I have never worked in a TDD environment. However, I am very keen on adapting a best-practice approach to TDD with Jest and Enzyme and am confident that I would pick up the required skills quickly, when I get the chance to use them in my day-to-day work.
+<ul>
+    <li>**Redux**: I did not see the need to use Redux here and therefore relied on React's native state management due to time constraints</li>
+    <li>**Unit Tests**: I have to admit, that this is my weakest skill, since I have never worked in a TDD environment. However, I am very keen on adapting a best-practice approach to TDD with Jest and Enzyme and am confident that I would pick up the required skills quickly, when I get the chance to use them in my day-to-day work.</li>
+</ul>
 
 ## How to run
 
