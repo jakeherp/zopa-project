@@ -1,6 +1,11 @@
 import React from "react"
 import styled from "styled-components"
-import { Button, InputText, InputLabel } from "@zopauk/react-components"
+import {
+	Button,
+	ErrorMessage,
+	InputLabel,
+	InputText,
+} from "@zopauk/react-components"
 
 const Form = styled.form`
 	min-height: 500px;
@@ -21,27 +26,28 @@ const FormComponent = ({
 	<Form onSubmit={handleSubmit}>
 		<div>
 			<InputLabel>Name</InputLabel>
-			<InputText
-				value={nameInput}
-				onChange={handleNameChange}
-				errorMessage="Please enter a valid name"
-			/>
+			<InputText value={nameInput.value} onChange={handleNameChange} />
+			{nameInput.error && (
+				<ErrorMessage>Please enter a valid name</ErrorMessage>
+			)}
 		</div>
 		<div>
 			<InputLabel>Email address</InputLabel>
-			<InputText
-				value={emailInput}
-				onChange={handleEmailChange}
-				errorMessage="Please enter a valid email address"
-			/>
+			<InputText value={emailInput.value} onChange={handleEmailChange} />
+			{emailInput.error && (
+				<ErrorMessage>Please enter a valid email address</ErrorMessage>
+			)}
 		</div>
 		<div>
 			<InputLabel>Amount</InputLabel>
 			<InputText
-				value={amountInput}
+				type="number"
+				value={amountInput.value}
 				onChange={handleAmountChange}
-				errorMessage="Please enter a valid amount"
 			/>
+			{nameInput.error && (
+				<ErrorMessage>Please enter a valid amount</ErrorMessage>
+			)}
 		</div>
 		<Button styling="primary" fullWidth={true}>
 			Send

@@ -49,10 +49,7 @@ const Transactions = styled.dl`
 const App = () => {
 	const [nameInput, setNameInput] = useState({ value: "", error: false })
 	const [emailInput, setEmailInput] = useState({ value: "", error: false })
-	const [amountInput, setAmountInput] = useState({
-		value: null,
-		error: false,
-	})
+	const [amountInput, setAmountInput] = useState({ value: 0, error: false })
 	const [moneySent, setMoneySent] = useState(false)
 
 	const [balance, setBalance] = useState(13500)
@@ -77,6 +74,10 @@ const App = () => {
 		},
 	])
 
+	const validateEmail = email => {
+		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+	}
+
 	const handleNameChange = evt =>
 		setNameInput({ ...nameInput, value: evt.target.value })
 	const handleEmailChange = evt =>
@@ -87,27 +88,33 @@ const App = () => {
 	const handleSubmit = e => {
 		e.preventDefault()
 
-		const transactionsObject = {
-			id: transactions.length,
-			name: nameInput.value,
-			email: emailInput.value,
-			amount: parseFloat(amountInput.value),
+		if (!nameInput.value) {
+			setNameInput({ ...nameInput, error: true })
+		} else if (!validateEmail(emailInput.value)) {
+			setEmailInput({ ...emailInput, error: true })
+		} else if (amountInput.value <= 0 || amountInput.value > balance) {
+			setAmountInput({ ...amountInput, error: true })
+		} else {
+			const transactionsObject = {
+				id: transactions.length,
+				name: nameInput.value,
+				email: emailInput.value,
+				amount: parseFloat(amountInput.value),
+			}
+
+			const leftAvailable = balance - parseFloat(amountInput.value)
+
+			setTransactions(transactions.concat(transactionsObject))
+			setBalance(leftAvailable)
+			setMoneySent(true)
+			resetForm()
 		}
-
-		const leftAvailable = balance - parseFloat(amountInput.value)
-
-		setTransactions(transactions.concat(transactionsObject))
-		setBalance(leftAvailable)
-		setMoneySent(true)
-		setTimeout(() => setMoneySent(false), 5000)
-		resetForm()
-		console.log(transactions, balance)
 	}
 
 	const resetForm = () => {
-		setNameInput("")
-		setEmailInput("")
-		setAmountInput("")
+		setNameInput({ value: "", error: false })
+		setEmailInput({ value: "", error: false })
+		setAmountInput({ value: 0, error: false })
 	}
 
 	const toLocalCurrency = (num, country = "en-GB", currency = "GBP") => {
@@ -135,17 +142,18 @@ const App = () => {
 							handleEmailChange={e => handleEmailChange(e)}
 							handleAmountChange={e => handleAmountChange(e)}
 							handleSubmit={e => handleSubmit(e)}
-							nameInput={nameInput.value}
-							emailInput={emailInput.value}
-							amountInput={amountInput.value}
+							nameInput={nameInput}
+							emailInput={emailInput}
+							amountInput={amountInput}
 						/>
 					</FlexCol>
 					<FlexCol xs={12} m={5} l={4}>
 						<H2>My account</H2>
 						<FlexContainer gutter={0}>
 							<Account
-								spent={toLocalCurrency(totalSpent)}
-								balance={toLocalCurrency(balance)}
+								spent={totalSpent}
+								balance={balance}
+								toLocalCurrency={num => toLocalCurrency(num)}
 							/>
 						</FlexContainer>
 						<Header3>Transactions</Header3>
