@@ -14,14 +14,30 @@ const Form = styled.form`
 	justify-content: space-evenly;
 `
 
+const Amount = styled.div`
+	position: relative;
+
+	input {
+		padding-left: 2rem;
+	}
+`
+
+const Currency = styled.span`
+	position: absolute;
+	left: 1rem;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 1.5rem;
+`
+
 const FormComponent = ({
-	handleNameChange,
-	handleEmailChange,
-	handleAmountChange,
-	handleSubmit,
-	nameInput,
-	emailInput,
-	amountInput,
+	handlers: {
+		handleNameChange,
+		handleEmailChange,
+		handleAmountChange,
+		handleSubmit,
+	},
+	values: { nameInput, emailInput, amountInput },
 }) => (
 	<Form onSubmit={handleSubmit}>
 		<div>
@@ -40,12 +56,15 @@ const FormComponent = ({
 		</div>
 		<div>
 			<InputLabel>Amount</InputLabel>
-			<InputText
-				type="number"
-				value={amountInput.value}
-				onChange={handleAmountChange}
-			/>
-			{nameInput.error && (
+			<Amount>
+				<InputText
+					type="number"
+					value={amountInput.value > 0 && amountInput.value}
+					onChange={handleAmountChange}
+				/>
+				<Currency>&pound;</Currency>
+			</Amount>
+			{amountInput.error && (
 				<ErrorMessage>Please enter a valid amount</ErrorMessage>
 			)}
 		</div>

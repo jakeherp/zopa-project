@@ -35,15 +35,28 @@ const Transactions = styled.dl`
 		&:not(:last-of-type) {
 			border-bottom: 1px solid #d8d8d8;
 		}
+		small {
+			line-height: 2.5;
+		}
 	}
 
 	dd {
 		text-align: right;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
 	}
 
 	small {
 		display: block;
 	}
+`
+
+const Container = styled(FlexContainer)`
+	background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxIDEiPjx0aXRsZT5waXhlbDwvdGl0bGU+PHJlY3Qgd2lkdGg9IjEiIGhlaWdodD0iMSIgc3R5bGU9ImZpbGw6I2U5ZWFmNCIvPjwvc3ZnPg==)
+		repeat-y center;
+	background-size: 1px;
+	margin-top: 3rem;
 `
 
 const App = () => {
@@ -130,7 +143,7 @@ const App = () => {
 		<React.Fragment>
 			<GlobalStyles />
 			<Fonts />
-			<FlexContainer gutter={0}>
+			<Container gutter={0}>
 				{moneySent && (
 					<Alert type="verified">The money has been sent</Alert>
 				)}
@@ -138,13 +151,17 @@ const App = () => {
 					<FlexCol xs={12} m={5} l={4}>
 						<H2>Send money</H2>
 						<Form
-							handleNameChange={e => handleNameChange(e)}
-							handleEmailChange={e => handleEmailChange(e)}
-							handleAmountChange={e => handleAmountChange(e)}
-							handleSubmit={e => handleSubmit(e)}
-							nameInput={nameInput}
-							emailInput={emailInput}
-							amountInput={amountInput}
+							handlers={{
+								handleNameChange,
+								handleEmailChange,
+								handleAmountChange,
+								handleSubmit,
+							}}
+							values={{
+								nameInput,
+								emailInput,
+								amountInput,
+							}}
 						/>
 					</FlexCol>
 					<FlexCol xs={12} m={5} l={4}>
@@ -174,7 +191,7 @@ const App = () => {
 						</Transactions>
 					</FlexCol>
 				</FlexRow>
-			</FlexContainer>
+			</Container>
 		</React.Fragment>
 	)
 }

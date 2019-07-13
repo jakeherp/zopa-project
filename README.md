@@ -1,68 +1,48 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# ReactJS Coding Challenge - Zopa
 
-## Available Scripts
+Congratulations! You're here because you've made it through to the next step of your Zopa interview.
 
-In the project directory, you can run:
+We'd like to ask you to complete this coding challenge, so you can showcase your creative problem-solving and technical ability.
 
-### `npm start`
+We hope you'll enjoy it. It should take around **4 hours**, give or take. We're happy to look at partial solutions too.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+We're on the lookout for best practices and evidence that you understand the technology. The one thing we insist on is that you use React to complete this challenge – but you're free to use any other libraries or tools on top.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## The background
 
-### `npm test`
+Your challenge is to create a web application that helps you send money to friends.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+On the left side of the screen below, you have a form to enter your friend's details. On the right side, you have your account details.
 
-### `npm run build`
+You will fill in the form with your friend's details, name, email and amount you'd like to send. Each field of the form has inline validation displaying error messages when one of the field is not valid. Clicking the "Send" button will create a transaction if the fields are valid and there is enough money available in the account.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The account shows how much money you've sent so far and how much is available. You can set the initial amount to whichever value you'd like. The difference is represented on a circular graphic which updates every time you send money to someone. Under it, you can see the details of your past transactions.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+![](./design/screen.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Your task
 
-### `npm run eject`
+-   Build the screen so it looks exactly like the design above.
+-   Implement the logic as described above.
+-   Provide unit tests.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Bonus points (optional, only if you have time to spare):
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+-   The application is designed for desktop. Use your creativity to make the design responsive, so it looks great on mobile devices as well.
+-   To make this challenge more realistic, you can submit the form in asynchronous to an API server and add the transaction when you get a valid response. You can use something like [json-server](https://github.com/typicode/json-server) to create a quick javascript server.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## How to submit your web application
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Create a markdown file `INSTRUCTIONS.md` with documentation about how we can run your web application. When you're happy with the result, zip it up and send it to your recruiter. Please don't publish it to a publicly accessible repository.
 
-## Learn More
+## Suggested libraries and tools
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+-   [create-react-app](https://github.com/facebook/create-react-app): Easy to install and to get started.
+-   [redux](https://github.com/reactjs/redux): Keep the entire state of your app in a single place.
+-   [styled-components](https://github.com/styled-components/styled-components): Use tagged template literals to style your components.
+-   [typescript](https://github.com/Microsoft/TypeScript)/[flow](https://github.com/facebook/flow): Strong types make your code more reliable when you work in larger teams.
+-   [jest](https://github.com/facebook/jest): Easy unit testing framework for javascript.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Assets provided
 
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+You'll find designs and fonts in the 'design' folder.
