@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import ReactDOM from "react-dom"
 import styled, { createGlobalStyle } from "styled-components"
 import {
@@ -11,6 +11,9 @@ import {
 	Header2,
 	Header3,
 } from "@zopauk/react-components"
+
+import transactionsService from "./services/transactions"
+import balanceService from "./services/balance"
 
 import Account from "./components/Account"
 import Alert from "./components/Alert"
@@ -75,27 +78,17 @@ const App = () => {
 	const [amountInput, setAmountInput] = useState({ value: 0, error: false })
 	const [moneySent, setMoneySent] = useState(false)
 
-	const [balance, setBalance] = useState(13500)
-	const [transactions, setTransactions] = useState([
-		{
-			id: 0,
-			name: `Martin`,
-			email: `martin@zopa.com`,
-			amount: 1500.0,
-		},
-		{
-			id: 1,
-			name: `Thomas`,
-			email: `thomas@zopa.com`,
-			amount: 1000.0,
-		},
-		{
-			id: 2,
-			name: `Natalia`,
-			email: `natalia@zopa.com`,
-			amount: 2000.0,
-		},
-	])
+	const [balance, setBalance] = useState(0)
+	const [transactions, setTransactions] = useState([])
+
+	useEffect(() => {
+		transactionsService.getTransactions().then(res => {
+			setTransactions(res.data)
+		})
+		balanceService.getBalance().then(res => {
+			setBalance(res.data[0].balance)
+		})
+	}, [])
 
 	const validateEmail = email => {
 		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
@@ -124,13 +117,28 @@ const App = () => {
 				email: emailInput.value,
 				amount: parseFloat(amountInput.value),
 			}
-
 			const leftAvailable = balance - parseFloat(amountInput.value)
 
-			setTransactions(transactions.concat(transactionsObject))
-			setBalance(leftAvailable)
-			setMoneySent(true)
-			resetForm()
+			transactionsService
+				.addTransaction({
+					id: transactions.length,
+					name: nameInput.value,
+					email: emailInput.value,
+					amount: parseFloat(amountInput.value),
+				})
+				.then(() => {
+					setTransactions(transactions.concat(transactionsObject))
+					balanceService
+						.updateBalance({
+							id: 0,
+							balance: leftAvailable,
+						})
+						.then(() => {
+							setBalance(leftAvailable)
+							setMoneySent(true)
+							resetForm()
+						})
+				})
 		}
 	}
 

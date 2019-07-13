@@ -1,0 +1,28 @@
+{
+	"transactions": [
+		{
+			"id": 0,
+			"name": "Martin",
+			"email": "martin@zopa.com",
+			"amount": 1500.0
+		},
+		{
+			"id": 1,
+			"name": "Thomas",
+			"email": "thomas@zopa.com",
+			"amount": 1000.0
+		},
+		{
+			"id": 2,
+			"name": "Natalia",
+			"email": "natalia@zopa.com",
+			"amount": 2000.0
+		}
+	],
+	"balance": [
+		{
+			"id": 0,
+			"balance": 13500.0
+		}
+	]
+}
